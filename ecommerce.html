@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+</head>
+<body>
+    <h1>All Products</h1>
+    <ul>
+        {% for product in products %}
+        <li>
+            <a href="{{ url_for('product', product_id=product.id) }}">{{ product.name }}</a> - ${{ product.price }}
+            <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
+                <button type="submit">Add to Cart</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+product.html:
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }}</title>
+</head>
+<body>
+    <h1>{{ product.name }}</h1>
+    <p>Price: ${{ product.price }}</p>
+    <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
+        <button type="submit">Add to Cart</button>
+    </form>
+</body>
+</html>
+cart.html:
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+</head>
+<body>
+    <h1>Your Cart</h1>
+    <ul>
+        {% for item in cart_items %}
+        <li>{{ item.product.name }} - ${{ item.product.price }}</li>
+        {% endfor %}
+    </ul>
+    <p>Total: ${{ total }}</p>
+    <form action="{{ url_for('remove_all_from_cart') }}" method="post">
+        <button type="submit">Remove All from Cart</button>
+    </form>
+    <hr>
+    <h2>Remove Individual Items</h2>
+    <ul>
+        {% for item in cart_items %}
+        <li>
+            {{ item.product.name }} - ${{ item.product.price }}
+            <form action="{{ url_for('remove_from_cart', cart_item_id=item.id) }}" method="post">
+                <button type="submit">Remove</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
